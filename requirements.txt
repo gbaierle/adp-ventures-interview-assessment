@@ -1,0 +1,23 @@
+1. Create a simple JavaScript (nodejs) application that makes an HTTP GET request to /api/v1/get-task
+2. using the ID and properties returned, dynamically perform the calculation as instructed.
+3. Once you have your ID and your result, make an HTTP POST request to /api/v1/submit-task with a JSON POST body including the properties id and result.
+The submit-task endpoint will return as follows:
+200: Success
+400: Incorrect value in result; no ID specified; value is invalid
+404: Value not found for specified ID
+503: Error communicating with database
+
+Evaluation criteria:
+- the candidate should not use frameworks like React, Angular, and Express, or bootstraps like create-react-app and angular cli . Libraries are allowed, just not frameworks.
+- a reviewer should be able to clone this repository (e.g. from Github, Bitbucket)
+- a reviewer should be able to run npm install and get all required dependencies
+- a reviewer should be able to run npm start to run the application
+- a reviewer should be able to see that calls are successful
+- the work should be free of CORs errors when running on http://localhost
+
+Bonus points:
+- While application is running, it gets and submits tasks continuously (without being a DoS attack :))
+- Code is commented where appropriate
+- Project is linted with common ESLint config (airbnb, standard) and contains a lint script in package.json
+- unit tests / end-to-end tests are runnable via npm test command
+- Report any bugs or issues you find (there shouldn't be any, but who knows ;))
