@@ -8,7 +8,8 @@
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
     "start": "tsx src/index.ts",
-    "test": "node --import tsx --test **/*.test.ts"
+    "test": "node --import tsx --test **/*.test.ts",
+    "test:coverage": "node --import tsx --test --experimental-test-coverage"
   },
   "keywords": [],
   "author": "",
