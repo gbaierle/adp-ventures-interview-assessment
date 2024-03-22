@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from "axios";
 import IncorrectResultException from "../../eceptions/incorrectResultException.js";
 import TaskService from "../../services/taskService.js";
 import Task from "../../types/task.js";
@@ -46,7 +47,7 @@ export default class TaskController {
    * @returns Promise<string>
    * @throws Error|IncorrectResultException
    */
-  async submitTask(task: Task): Promise<string> {
+  async submitTask(task: Task): Promise<TaskResult> {
     const result = this.taskService.calculateTaskResult(task);
     const taskResult: TaskResult = {
       id: task.id,
@@ -60,12 +61,14 @@ export default class TaskController {
       );
 
       if (response.status === 200) {
-        return response.data;
+        return taskResult;
       }
+    } catch (error) {
+      const response = (error as AxiosError).response as AxiosResponse;
 
       if (response.status === 400) {
         if (response.data === "Incorrect result.") {
-          throw new IncorrectResultException(response.data);
+          throw new IncorrectResultException(`Incorrect result: ${result}`);
         }
         throw new Error(response.data || "Bad Request");
       }
@@ -77,10 +80,8 @@ export default class TaskController {
       if (response.status >= 500) {
         throw new Error(response.statusText || "Error submitting task");
       }
-
-      return response.data;
-    } catch (error) {
-      throw error;
     }
+
+    return taskResult;
   }
 }

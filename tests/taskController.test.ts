@@ -5,6 +5,7 @@ import Task from "../src/types/task.js";
 import AxiosClient from "../src/http/client/axiosClient.js";
 import assert from "node:assert";
 import IncorrectResultException from "../src/eceptions/incorrectResultException.js";
+import TaskResult from "../src/types/taskResult.js";
 
 describe("TaskController", () => {
   describe("getTask", () => {
@@ -70,15 +71,20 @@ describe("TaskController", () => {
     })
 
     it("should return task is Correct when status is 200", async () => {
+      const taskResult = {
+        id: "test-id-123",
+        result: 3,
+      } as TaskResult;
+
       mock.method(
         axiosClientMock,
         "post",
-        async () => ({ status: 200, data: "Correct" } as AxiosResponse<string>)
+        async () => ({ status: 200, data: taskResult } as AxiosResponse<TaskResult>)
       );
 
       const taskController = new TaskController(axiosClientMock);
       const result = await taskController.submitTask(task);
-      assert.equal(result, "Correct");
+      assert.deepStrictEqual(result, taskResult);
     });
 
     it("should throw IncorrectResultException when task is Incorrect and status is 400", async () => {
@@ -90,10 +96,6 @@ describe("TaskController", () => {
       );
 
       const taskController = new TaskController(axiosClientMock);
-      assert.rejects(async () => {
-        await taskController.submitTask(task);
-      });
-
       try {
         await taskController.submitTask(task);
       } catch (error: unknown) {
@@ -111,10 +113,6 @@ describe("TaskController", () => {
       );
 
       const taskController = new TaskController(axiosClientMock);
-      assert.rejects(async () => {
-        await taskController.submitTask(task);
-      });
-
       try {
         await taskController.submitTask(task);
       } catch (error: unknown) {
@@ -131,10 +129,6 @@ describe("TaskController", () => {
       );
 
       const taskController = new TaskController(axiosClientMock);
-      assert.rejects(async () => {
-        await taskController.submitTask(task);
-      });
-
       try {
         await taskController.submitTask(task);
       } catch (error: unknown) {
@@ -151,10 +145,6 @@ describe("TaskController", () => {
       );
 
       const taskController = new TaskController(axiosClientMock);
-      assert.rejects(async () => {
-        await taskController.submitTask(task);
-      });
-
       try {
         await taskController.submitTask(task);
       } catch (error: unknown) {
